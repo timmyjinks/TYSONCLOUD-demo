@@ -6,7 +6,7 @@ export const load = (async ({ locals }) => {
 		throw redirect(303, '/login');
 	}
 
-	const response = await fetch('http://localhost:8000/databases', {
+	const response = await fetch('http://dockerapi:8000/databases', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' }
 	});

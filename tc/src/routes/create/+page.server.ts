@@ -14,7 +14,7 @@ export const actions = {
 		const database_username = formData.get('database_username').replace(/[^a-zA-Z]/g, "") as string;
 		const database_password = formData.get('database_password') as string;
 
-		const response = await fetch('http://localhost:8000/database', {
+		const response = await fetch('http://dockerapi:8000/database', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
