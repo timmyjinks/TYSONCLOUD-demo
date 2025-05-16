@@ -6,16 +6,15 @@ export const load = (async ({ locals }) => {
 		throw redirect(303, '/login');
 	}
 
-	const response = await fetch('http://dockerapi:8080/databases', {
+	const response = await fetch('http://localhost:8000/databases', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' }
-		// body: JSON.stringify([])
 	});
 
 	const data = await response.json();
 
 	return {
-		databases: data,
+		databases: data.reverse(),
 		user: locals.user
 	};
 }) satisfies PageServerLoad;
