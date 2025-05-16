@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
 
 export const load = (async ({ locals }) => {
@@ -24,7 +24,9 @@ export const actions = {
 				.authWithPassword(username.toString(), password.toString());
 		} catch (err: any) {
 			console.log(err);
-			throw error(500, err);
+      return fail(400, {
+        error: "Username or Password is incorrect"
+      })
 		}
 		throw redirect(303, '/');
 	}
