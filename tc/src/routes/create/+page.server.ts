@@ -10,11 +10,11 @@ export const load = (async ({ locals }) => {
 export const actions = {
 	create: async ({ request }) => {
 		const formData = await request.formData();
-		const database_name = formData.get('database_name') as string;
-		const database_username = formData.get('database_username') as string;
+		const database_name = formData.get('database_name').replace(/[^a-zA-Z0-9-_]/g, "") as string;
+		const database_username = formData.get('database_username').replace(/[^a-zA-Z]/g, "") as string;
 		const database_password = formData.get('database_password') as string;
 
-		const response = await fetch('http://dockerapi:8080/database', {
+		const response = await fetch('http://localhost:8000/database', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
