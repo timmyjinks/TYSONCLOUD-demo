@@ -6,10 +6,7 @@ export const load = (async ({ locals }) => {
 		throw redirect(303, '/login');
 	}
 
-	const response = await fetch('http://dockerapi:8000/databases', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' }
-	});
+	const response = await fetch(`http://dockerapi:8000/databases?username=${locals.user?.username}`);
 
 	const data = await response.json();
 
