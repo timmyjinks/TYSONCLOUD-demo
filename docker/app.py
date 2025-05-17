@@ -10,6 +10,7 @@ client = docker.from_env()
 
 
 class CreateContainer(BaseModel):
+    username: str
     database_name: str
     database_username: str
     database_password: str
@@ -35,10 +36,13 @@ app.add_middleware(
 )
 
 
-@app.post("/databases")
-def get_containers(username: str = ""):
+@app.get("/databases")
+def get_containers(username=""):
     try:
-        containers = client.containers.list(all=True, filters=[f"username={username}"])
+        print(username)
+        containers = client.containers.list(
+            all=True, filters={"label": f"username={username}"}
+        )
 
         if len(containers) == 0:
             return []
@@ -61,7 +65,11 @@ def create_container(create_container: CreateContainer):
     try:
         database_name = create_container.database_name
 
-        # label for the website and username
+        # labels for traefik
+        labels = {
+            "username": f"{create_container.username}",
+            "url": f"{create_container.username}-{create_container.database_name}.tysonjenkins.dev",
+        }
         client.containers.run(
             name=database_name,
             image="postgres",
@@ -69,10 +77,7 @@ def create_container(create_container: CreateContainer):
                 "POSTGRES_USERNAME": create_container.database_username,
                 "POSTGRES_PASSWORD": create_container.database_password,
             },
-            labels={
-                "username": "",
-                "url": f"username-containername.tysonjenkins.dev",
-            },
+            labels=labels,
             detach=True,
         )
         container = client.containers.get(database_name)
