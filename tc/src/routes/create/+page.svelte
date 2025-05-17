@@ -8,7 +8,13 @@
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 justify-between">
 				<div class="flex items-center">
-					<a href="/dashboard" class="text-2xl font-bold text-indigo-400">TYSONCLOUD-demo</a>
+					<a href="/dashboard" class="text-2xl font-bold text-indigo-400"
+						>TYSONCLOUD <span
+							style="border-radius: 1000px; color: var(--color-indigo-400); border: 2px solid
+              var(--color-indigo-400); padding: 0 8px; margin-left: 10px"
+							>demo
+						</span>
+					</a>
 				</div>
 				<div class="flex items-center">
 					<button
