@@ -1,10 +1,11 @@
-from typing import List
+from typing import Dict, List
 
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import docker
+from tunnel import *
 
 client = docker.from_env()
 
@@ -24,6 +25,7 @@ class Container(BaseModel):
     id: str
     name: str
     status: str
+    url: str
 
 
 app = FastAPI()
@@ -39,7 +41,6 @@ app.add_middleware(
 @app.get("/databases")
 def get_containers(username=""):
     try:
-        print(username)
         containers = client.containers.list(
             all=True, filters={"label": f"username={username}"}
         )
@@ -51,7 +52,10 @@ def get_containers(username=""):
         for container in containers:
             if container.image.attrs["RepoTags"][0] == "postgres:latest":
                 contain = Container(
-                    id=container.id, name=container.name, status=container.status
+                    id=container.id,
+                    name=container.name,
+                    status=container.status,
+                    url=container.labels["url"],
                 )
                 response.append(contain)
         return response
@@ -65,14 +69,16 @@ def create_container(create_container: CreateContainer):
     try:
         database_name = create_container.database_name
 
+        url_subdomain = create_container.username + "-" + create_container.database_name
         # labels for traefik
         labels = {
             "username": f"{create_container.username}",
-            "url": f"{create_container.username}-{create_container.database_name}.tysonjenkins.dev",
+            "url": f"{url_subdomain}.tysonjenkins.dev",
         }
         client.containers.run(
             name=database_name,
             image="postgres",
+            hostname=url_subdomain,
             environment={
                 "POSTGRES_USERNAME": create_container.database_username,
                 "POSTGRES_PASSWORD": create_container.database_password,
@@ -80,10 +86,10 @@ def create_container(create_container: CreateContainer):
             labels=labels,
             detach=True,
         )
-        container = client.containers.get(database_name)
 
         # if the container was able to successfully be created than go ahead and add a public url
         # for the database
+        create_public_url(url_subdomain)
 
         return Response(status_code=200)
     except NameError as e:
