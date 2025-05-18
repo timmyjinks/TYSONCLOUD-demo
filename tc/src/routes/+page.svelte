@@ -47,7 +47,7 @@
 				<div class="flex">
 					<div class="rows-auto grid w-[100%] grid-cols-4 gap-5">
 						{#each data.databases as database}
-							<Card name={database.name} status={database.status} />
+							<Card name={database.name} status={database.status} url={database.url} />
 						{/each}
 						<a
 							href="/create"
