@@ -1,69 +1,31 @@
 # 🌩️ TYSONCLOUD-demo: Launch Your Database Mission!
 
-![TYSONCLOUD-demo Banner](https://via.placeholder.com/800x200/1E3A8A/FFFFFF?text=TYSONCLOUD-demo+Mission+Control)  
-*Broadcasting from Tinker Terrace, where we make cloud dreams a reality!*
-
 ## 🚀 Welcome to the Mission
-Welcome, agents, to **TYSONCLOUD-demo**, the ultimate proving ground for deploying PostgreSQL databases with ease and accessing them remotely like a cloud ninja! This project is a key piece of our TYSONCLOUD mission to deliver simple, affordable cloud deployments. Built for Neumont’s game dev students, it’s your launchpad to mastering databases with Docker and Cloudflare’s slick proxy tech. Ready to take control? Let’s roll!
+Welcome! TYSONCLOUD-demo was used to teach game students at Neumont College of Computer Sceince the basics of PostgreSQL. All you need to do is sign up and create a database in 3 easy steps. 
 
 🔗 **Live Demo**: [tysoncloud-demo.tysonjenkins.dev](https://tysoncloud-demo.tysonjenkins.dev/)
 
 ## 🌟 Why TYSONCLOUD-demo Rocks
-- 🛠️ **Instant Postgres Power**: Spin up PostgreSQL databases faster than a speedrun world record.
-- 🌐 **Remote Access, Agent Style**: Connect securely from anywhere using Cloudflare’s stealthy proxies.
-- 🎮 **Game Dev Friendly**: Designed to help students wield databases like a pro in their game projects.
-- 🔒 **Locked and Loaded**: Basic authentication keeps your data secure while you build epic creations.
-- 📈 **Future-Proof**: Scalable design ready to evolve into the full TYSONCLOUD vision.
+- 🛠️ **Instant Postgres**: Spin up PostgreSQL databases faster than a speedrun world record.
+- 🌐 **Remote Access**: Connect securely from anywhere using Cloudflare’s stealthy proxies.
+- 🔒 **Authentication**: Basic authentication keeps your data secure while you build epic creations.
 
-## 🧰 Gear You’ll Need
+## 🧰 Requirements
 - **Docker**: Your trusty container sidekick (version 20.10 or higher).
-- **Cloudflare Account**: Your key to secure, global access.
-- **Git**: For cloning the repo like a code master.
-- **CLI Skills**: Just enough terminal swagger to deploy with confidence.
+- **Cloudflared**: for secure, global access.
+- **SQL Editor**: for managing your Postgres database
 
-## 🚀 Launch Sequence
-1. **Grab the Code**  
-   Clone the repo and step into mission control:
+## 🚀 Accessing your Database
+1. **Cloudflared Access**  
    ```bash
-   git clone https://github.com/timmyjinks/TYSONCLOUD-demo.git
-   cd TYSONCLOUD-demo
+   cloudflared access tcp--hostname <hostname> --url localhost:5432
    ```
 
-2. **Set Your Coordinates**  
-   Create a `.env` file in the project root with:
-   ```
-   POSTGRES_USER=your_username
-   POSTGRES_PASSWORD=your_super_secret_code
-   POSTGRES_DB=your_database
-   CLOUDFLARE_API_TOKEN=your_cloudflare_token
-   ```
-
-3. **Fire Up the Engines**  
-   Launch the Postgres container and proxy setup:
-   ```bash
-   docker-compose up -d
-   ```
-   *Engines online, ready for liftoff!*
-
-4. **Activate Cloudflare Cloaking Device**  
-   - Log into your Cloudflare dashboard (mission control).
-   - Add a DNS record for your server’s IP (e.g., A record for `tysoncloud-demo.tysonjenkins.dev`).
-   - Enable proxy status for secure, encrypted access.
-
-5. **Access the Action**  
-   Visit [tysoncloud-demo.tysonjenkins.dev](https://tysoncloud-demo.tysonjenkins.dev/) and log in. You’re now commanding the cloud!
-
-## 🎮 How to Rule the Cloud
-- **Deploy a Database**: Use the web interface to create a new Postgres database. Name it, configure it, dominate it.
-- **Go Remote**: Connect with any Postgres client (e.g., pgAdmin, psql):
-  ```bash
-  psql -h tysoncloud-demo.tysonjenkins.dev -U your_username -d your_database
-  ```
-- **Monitor Like a Pro**: Check status and logs via the web interface. Dig deeper with:
-  ```bash
-  docker-compose logs
-  docker-compose down
-  ```
+2. **Editing your Database**  
+  depending on which method you use for accessing your database all settings should be the same:
+   - hostname: localhost:5432
+   - username: <username>
+   - password: <password>
 
 ## 🤝 Join the TYSONCLOUD Crew
 Want to make TYSONCLOUD-demo even more epic? Join the mission!
